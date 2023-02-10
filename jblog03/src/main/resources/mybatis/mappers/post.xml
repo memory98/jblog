@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="post">
+	<insert id= "insert" parameterType="postvo">
+		<![CDATA[
+			insert 
+				into post
+			  values(null,#{title},#{contents},now(),#{category_no})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+			select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="finddAllCatgory" resultType="postvo" parameterType="string">
+		<![CDATA[
+			select
+				p.no as no, p.title as title, p.contents as contents, p.reg_date as reg_date,p.category_no as category_no, c.id as userId
+		   from post p 
+		   join category c 
+		     on p.category_no = c.no
+		  where c.id=#{id}
+	   order by reg_date desc
+		]]>
+	</select>
+		
+	<select id="findCategory" resultType="postvo" parameterType="map">
+		<![CDATA[
+			select
+				p.no as no, p.title as title, p.contents as contents, p.reg_date as reg_date,p.category_no as category_no, c.id as userId
+		   from post p 
+		   join category c 
+		     on p.category_no = c.no
+		  where p.category_no=#{categoryNo}
+		    and c.id = #{id}
+	   order by reg_date desc
+		]]>
+	</select>
+
+	<select id="findPost" resultType="postvo" parameterType="long">
+		<![CDATA[
+			select
+				p.no as no, p.title as title, p.contents as contents, p.reg_date as reg_date,p.category_no as category_no, c.id as userId
+		   from post p 
+		   join category c 
+		     on p.category_no = c.no
+		  where p.no=#{no} 
+	   order by reg_date desc
+		]]>
+	</select>
+	
+		<select id="maxCategory_No" resultType="long" parameterType="string">
+		<![CDATA[
+       			select max(p.category_no) as no
+		  	      from post p 
+		   		  join category c 
+		     		on p.category_no = c.no
+		  		 where c.id=#{id}
+	   		  order by reg_date desc
+		]]>
+	</select>
+</mapper>

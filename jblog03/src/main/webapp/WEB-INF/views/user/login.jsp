@@ -12,16 +12,12 @@
 </head>
 <body>
 	<div class="center-content">
-		<h1 class="logo">JBlog</h1>
-		<ul class="menu">
-			<li><a href="">로그인</a></li>
-			<li><a href="">회원가입</a></li>
-			<li><a href="">로그아웃</a></li>
-			<li><a href="">내블로그</a></li>
-		</ul>
-		<form class="login-form">
+		<c:import url="/WEB-INF/views/includes/menu.jsp"/>
+		<form class="login-form" method="post" action="${pageContext.request.contextPath }/user/login">
+			<input type="hidden" name="nowblogid" value="${nowBlogId}">
       		<label>아이디</label> <input type="text" name="id">
-      		<label>패스워드</label> <input type="text" name="password">
+      		<label>패스워드</label> <input style="width:230px;padding:5px;" type="password" name="password">
+      		<br>
       		<input type="submit" value="로그인">
 		</form>
 	</div>
