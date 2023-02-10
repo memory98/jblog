@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.ServletContext;
+import javax.swing.text.html.Option;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,21 +57,22 @@ public class BlogController {
 			categoryNo = category_no.get();
 		}
 		Map<String, Object> id_cd = Map.of("id",id,"categoryNo",categoryNo);
-		System.out.println("postRepository - id_cd : "+id_cd);
-
 		List<PostVo> postList = postService.getPostByCate(id_cd);
-//		if(categoryNo == 0) {
-////			postList = postService.getAllPost(id);
-//			postList =  postService.getPostByCate();
-//		} else {
-//			postList = postService.getPostByCate(categoryNo);
-//		}
+		
 		PostVo postVo;
 		if(postNo==0) {
-			postVo = postList.get(0);
+			if(postList.size()!=0) {
+				postVo = postList.get(0);
+			} else {
+				postVo = new PostVo();
+				postVo.setTitle("글이 없습니다.");
+				postVo.setContents("글의 contents가 없습니다.");
+			}
 		} else {
 			postVo = postService.getPost(postNo);
 		}
+		if(postVo==null) {
+			}
 		BlogVo blogVo = blogService.getBlog(id);
 		List<CategoryVo> categoryList = categoryService.getCategory(id);
 		servletContext.setAttribute("id", id);
@@ -81,15 +83,6 @@ public class BlogController {
 
 		return "blog/main";
 	}
-//	@RequestMapping("")
-//	public String index(Model model, @PathVariable String id) {
-//		BlogVo blogVo = blogService.getBlog(id);
-//		List<CategoryVo> categoryList = categoryService.getCategory(id);
-//		servletContext.setAttribute("id", id);
-//		servletContext.setAttribute("blogVo", blogVo);
-//		model.addAttribute("categoryList", categoryList);
-//		return "blog/main";
-//	}
 	@RequestMapping("/admin")
 	public String admin(@PathVariable String id,Model model) {
 		BlogVo blogVo = blogService.getBlog(id);
@@ -120,25 +113,30 @@ public class BlogController {
 		return "blog/admin-category";
 	}
 	
-	@RequestMapping("/admin/category/delete/{no}")
+	@RequestMapping({"/admin/category/delete/{no}","/admin/category/delete/{no}/{message}"})
 	public String delete(
 			@PathVariable String id,
 			@PathVariable("no") Long no,
-			Model model) {
-		String message = "1";
+			Model model,
+			@PathVariable("message") Optional<String> message) {
+		String msg="";
+		if(message.isPresent()) {
+			msg=message.get();
+		}
 		Map<String, Object> id_cd = Map.of("id",id,"categoryNo",no);
-
+		System.out.println("msg : "+msg);
 		if(postService.checkCategory(id_cd)) {
 			System.out.println(1);
-			message="Post 중 해당 카테고리가 있습니다.";
-			System.out.println(message);
-			model.addAttribute("message", message);
+			msg="Post 중 해당 카테고리가 있습니다.";
+			model.addAttribute("msg", msg);
+//			return "blog/admin-category";
 			return "redirect:/"+id+"/admin/category";
 		}
 		if(categoryService.getCount(id)==1) {
 			System.out.println(2);
-			message = "마지막 카테고리 입니다.";
-			model.addAttribute("message", message);
+			msg = "마지막 카테고리 입니다.";
+			model.addAttribute("msg", msg);
+//			return "blog/admin-category";	
 			return "redirect:/"+id+"/admin/category";
 		}
 		System.out.println(3);

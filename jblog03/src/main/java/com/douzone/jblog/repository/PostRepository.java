@@ -21,11 +21,13 @@ public class PostRepository {
 		return sqlSession.selectOne("post.findPost",postNo);
 	}
 	public List<PostVo> findCategory(Map<String,Object> map) {
-
 		Long no = (Long) map.get("categoryNo");
 		String id = (String)map.get("id");
 		if(no==0) {
 			no=sqlSession.selectOne("post.maxCategory_No",id);
+		}
+		if(no==null) {
+			return null;
 		}
 		Map<String,Object> m = Map.of("id",id,"categoryNo",no);
 		return sqlSession.selectList("post.findCategory",m);

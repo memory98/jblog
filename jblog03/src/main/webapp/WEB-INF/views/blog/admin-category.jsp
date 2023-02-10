@@ -63,7 +63,7 @@
 			      	</table> 
 		      	</form>
 			</div>
-			<p>MESSAGE : ${message }</p>
+			<p>MESSAGE : ${msg }</p>
 		</div>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"></c:import>
 	</div>

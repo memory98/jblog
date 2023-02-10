@@ -1,5 +1,6 @@
 package com.douzone.jblog.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,16 @@ public class PostService {
 		return postRepository.findPost(postNo);
 	}
 	public List<PostVo> getPostByCate(Map<String,Object> map) {
-		return postRepository.findCategory(map);
+		List<PostVo> list = postRepository.findCategory(map);
+		System.out.println("getPostByCate - list : "+list);
+		if(list == null) {
+			list = new ArrayList<PostVo>();
+			PostVo postVo = new PostVo();
+			postVo.setTitle("글이 없습니다.");
+			postVo.setContents("글의 contents가 없습니다.");
+			list.add(postVo);
+		}
+		System.out.println("list : "+list);
+		return list;
 	}
 }

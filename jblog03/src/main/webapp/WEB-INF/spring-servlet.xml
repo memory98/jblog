@@ -23,7 +23,15 @@
 	<!-- Default Servlet Handler -->
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
 	<mvc:default-servlet-handler />	
-
+	
+	<!-- Interceptors -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+        	<mvc:mapping path="/*/admin/**" /> 
+    	<bean class="com.douzone.jblog.interceptor.AdminInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
 	<!-- ViewResolver -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
