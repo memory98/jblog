@@ -73,7 +73,6 @@ public class BlogController {
 		}
 		BlogVo blogVo = blogService.getBlog(id);
 		List<CategoryVo> categoryList = categoryService.getCategory(id);
-		System.out.println("postList : "+postList);
 		servletContext.setAttribute("id", id);
 		servletContext.setAttribute("blogVo", blogVo);
 		model.addAttribute("postList", postList);
