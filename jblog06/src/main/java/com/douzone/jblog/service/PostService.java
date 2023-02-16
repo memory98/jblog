@@ -21,6 +21,10 @@ public class PostService {
 	public boolean checkCategory(Map<String,Object> map) {
 		return !postRepository.findCategory(map).isEmpty()?true:false;
 	}
+	
+	public List<PostVo> postByCategory(Map<String,Object> map) {
+		return postRepository.findCategory(map);
+	}
 	public List<PostVo> getAllPost(String id) {
 		return postRepository.findAllCategory(id);
 	}

@@ -1,5 +1,6 @@
 package com.douzone.jblog.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -118,7 +119,14 @@ public class BlogController {
 	@RequestMapping("/admin/category")
 	public String category(@PathVariable String id,Model model) {
 		List<CategoryVo> list = categoryService.getCategory(id);
+		Map<Long,Object> countMap = new HashMap<>();
+		for(CategoryVo vo : list) {
+			Map<String, Object> id_cd = Map.of("id",id,"categoryNo",vo.getNo());
+			List<PostVo> postList = postService.getPostByCate(id_cd);
+			countMap.put(vo.getNo(),postList.size());
+		}
 		model.addAttribute("list",list);
+		model.addAttribute("countMap",countMap);
 		return "blog/admin-category";
 	}
 	

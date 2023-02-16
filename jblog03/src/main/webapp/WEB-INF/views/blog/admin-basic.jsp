@@ -12,7 +12,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<c:import url="/WEB-INF/views/includes/blog_menu.jsp"></c:import><a href="">블로그 관리</a>
+			<c:import url="/WEB-INF/views/includes/blog_menu.jsp"></c:import>
 		</div>
 		<div id="wrapper">
 			<div id="content" class="full-screen">

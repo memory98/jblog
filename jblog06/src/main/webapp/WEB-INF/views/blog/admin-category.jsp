@@ -35,7 +35,7 @@
 						<tr>
 							<td>${status.index+1 }</td>
 							<td>${vo.name }</td>
-							<td>10</td>
+							<td>${countMap.get(vo.no) }</td>
 							<td>${vo.description }</td>
 							<td>
 								<a href="${pageContext.request.contextPath }/${id}/admin/category/delete/${vo.no}">
