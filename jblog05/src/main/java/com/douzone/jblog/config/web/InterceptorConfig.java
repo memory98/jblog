@@ -14,16 +14,5 @@ public class InterceptorConfig implements WebMvcConfigurer{
 	// Arugument Resolver
 
 	
-	// Interceptors
-	@Bean
-	public HandlerInterceptor adminInterceptor() {
-		return new AdminInterceptor();
-	}
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry
-			.addInterceptor(adminInterceptor())
-			.addPathPatterns("/*/admin/**");
-	}
+
 }
